@@ -1,0 +1,43 @@
+type: http
+
+name: discord
+
+log_level: info
+
+format: |
+  {
+    "content": "",
+    "embeds": [
+      {{range . -}}
+      {{$alert := . -}}
+      {{range .Decisions -}}
+      {{if $alert.Source.Cn -}}
+      {
+        "title": "{{$alert.MachineID}}: {{.Scenario}}",
+        "description": ":flag_{{ $alert.Source.Cn | lower }}: {{$alert.Source.IP}} will get a {{.Type}} for the next {{.Duration}}.\n<https://www.shodan.io/host/{{$alert.Source.IP}}>\n<https://app.crowdsec.net/cti/{{$alert.Source.IP}}>",
+        "url": "https://db-ip.com/{{$alert.Source.IP}}",
+        "color": "16711680",
+        "image": {
+          "url": "https://www.mapquestapi.com/staticmap/v5/map?center={{$alert.Source.Latitude}},{{$alert.Source.Longitude}}&size=500,300&key=V3CPFmir2JEnjTk4TWgiSCtQVp7mXicc"
+        }
+      }
+      {{end}}
+      {{if not $alert.Source.Cn -}}
+      {
+        "title": "{{$alert.MachineID}}: {{.Scenario}}",
+        "description": ":pirate_flag: {{$alert.Source.IP}} will get a {{.Type}} for the next {{.Duration}}.\n<https://www.shodan.io/host/{{$alert.Source.IP}}>\n<https://app.crowdsec.net/cti/{{$alert.Source.IP}}>",
+        "url": "https://db-ip.com/{{$alert.Source.IP}}",
+        "color": "16711680"
+      }
+      {{end}}
+      {{end -}}
+      {{end -}}
+    ]
+  }
+
+url: https://discord.com/api/webhooks/YOUR_WEBHOOK_HERE
+
+method: POST
+
+headers:
+  Content-Type: application/json

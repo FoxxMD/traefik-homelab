@@ -1,0 +1,15 @@
+# Can enable authentik if it's in use.
+
+# source: docker
+# container_name:
+#  - authentik-authentik-proxy-1
+# docker_host: tcp://192.168.AUTHENTIK_HOST.IP:2375
+# labels:
+#   type: authentik
+# ---
+source: docker
+container_name:
+ - traefik-external-traefik-access-logs-1
+docker_host: tcp://192.168.TRAEFIK_EXTERNAL_HOST.IP:2375
+labels:
+  type: traefik

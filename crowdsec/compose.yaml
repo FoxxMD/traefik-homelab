@@ -1,0 +1,38 @@
+services:
+  crowdsec:
+    image: "crowdsecurity/crowdsec:latest"
+    environment:
+      - "CUSTOM_HOSTNAME=cs-decision"
+      - "GID=1000"
+      - "LEVEL_INFO=true"
+      - "TZ=America/New_York"
+    ports:
+      - "4242:4242/tcp"
+      - "6060:6060/tcp"
+      - "8080:8080/tcp"
+    restart: "always"
+    volumes:
+      - "./crowdsec/config:/etc/crowdsec"
+      - "./crowdsec/data:/var/lib/crowdsec/data"
+      - "./crowdsec/logs:/var/log/crowdsec"
+  crowdsec-ingest:
+    image: "crowdsecurity/crowdsec:latest"
+    environment:
+      - "COLLECTIONS=crowdsecurity/linux crowdsecurity/traefik crowdsecurity/whitelist-good-actors"
+      # known to have false positives and is CPU intensive
+      - "DISABLE_SCENARIOS=crowdsecurity/http-bad-user-agent"
+      # improves regex performance
+      - "CROWDSEC_FEATURE_RE2_GROK_SUPPORT=true"
+      - "CUSTOM_HOSTNAME=cs-ingest"
+      - "GID=1000"
+      # important to make this a worker
+      - "DISABLE_LOCAL_API=true"
+      - "LEVEL_INFO=true"
+      - "LOCAL_API_URL=http://CS_LAPI_INSTANCE_HOST_IP:8080"
+    ports:
+      - "6061:6060/tcp"
+    restart: "always"
+    volumes:
+      - "./crowdsec-ingest/config:/etc/crowdsec"
+      - "./crowdsec-ingest/data:/var/lib/crowdsec/data"
+      - "./crowdsec-ingest/logs:/var/log/crowdsec"
