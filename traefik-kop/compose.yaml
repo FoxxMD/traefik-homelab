@@ -1,0 +1,42 @@
+services:
+  traefik-kop-public:
+    image: "ghcr.io/jittering/traefik-kop:latest"
+    restart: unless-stopped
+    environment:
+      - "REDIS_ADDR=192.168.TRAEFIK_EXTERNAL_HOST.IP:6379"
+      - "NAMESPACE=public"
+      - "DOCKER_HOST=tcp://socket-proxy:2375"
+      - "KOP_HOSTNAME=${HOSTNAME:-generic}-public"
+      - "BIND_IP=${BIND_IP}"
+    depends_on:
+      - socket-proxy
+  traefik-kop-internal:
+    image: "ghcr.io/jittering/traefik-kop:latest"
+    restart: unless-stopped
+    environment:
+      - "REDIS_ADDR=192.168.TRAEFIK_INTERNAL_HOST.IP:6379"
+      - "DOCKER_HOST=tcp://socket-proxy:2375"
+      - "KOP_HOSTNAME=${HOSTNAME:-generic}-internal"
+      - "BIND_IP=${BIND_IP}"
+    depends_on:
+      - socket-proxy
+  socket-proxy:
+    image: lscr.io/linuxserver/socket-proxy:latest
+    environment:
+      - ALLOW_START=0
+      - ALLOW_STOP=0
+      - ALLOW_RESTARTS=0
+      - CONTAINERS=1
+      - EVENTS=1
+      - INFO=1
+      - NETWORKS=1
+      - POST=0
+      - SERVICES=1
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    security_opt:
+      - no-new-privileges:true
+    restart: always
+    read_only: true
+    tmpfs:
+      - /run

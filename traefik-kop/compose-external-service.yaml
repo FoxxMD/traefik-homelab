@@ -1,0 +1,15 @@
+# example service that is routed through Internal Traefik
+services:
+  echo:
+    image: mendhak/http-https-echo:36
+    networks:
+      - public_overlay
+    labels:
+      traefik.enable: true
+      traefik.http.routers.echo1.rule: Host(`echo1.CHANGEME.com`)
+      traefik.http.services.echo1.loadbalancer.server.port: 8080
+      traefik.docker.network: public_overlay
+      kop.namespace: public
+networks:
+  public_overlay:
+    external: true
