@@ -1,0 +1,63 @@
+accessLog:
+  filePath: "/var/log/traefik/access.log"
+  format: json
+  # filters:
+  #   statusCodes:
+  #     - "200-299" # log successful http requests
+  #     - "400-599" # log failed http requests
+  # collect logs as in-memory buffer before writing into log file
+  bufferingSize: 0
+  fields:
+    headers:
+      defaultMode: drop # drop all headers per default
+      names:
+          User-Agent: keep # log user agent strings
+api:
+  dashboard: true
+  insecure: true
+metrics:
+  prometheus:
+    buckets:
+      - 0.1
+      - 0.3
+      - 1.2
+      - 5.0
+providers:
+  docker:
+    exposedByDefault: false
+    constraints: "Label(`traefik.public`,`true`)"
+  redis:
+    endpoints:
+      - traefik-external-redis:6379
+  file:
+    directory: /config/dynamic
+    watch: true
+entryPoints:
+  cf:
+    address: :808
+    asDefault: true
+    http:
+     middlewares:
+       - cloudflarewarp@file
+       - crowdsec@file
+       - security-headers@file
+       - rate-limit@file
+    forwardedHeaders:
+      trustedIPs:
+        - 172.28.0.1/24
+experimental:
+  plugins:
+    cloudflarewarp:
+      moduleName: "github.com/PseudoResonance/cloudflarewarp"
+      version: "v1.4.0"
+    csbouncer:
+      moduleName: github.com/maxlerebourg/crowdsec-bouncer-traefik-plugin
+      version: "v1.4.0"
+    cache:
+      moduleName: "github.com/iamolegga/plugin-simplecache"
+      version: "v0.3.0"
+    rewrite-body:
+      moduleName: "github.com/packruler/rewrite-body"
+      version: "v1.2.0"
+log:
+  level: trace

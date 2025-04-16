@@ -1,0 +1,319 @@
+{
+	"name": "main",
+	"columns": [
+		{
+			"id": "196505",
+			"name": "StartLocal",
+			"handlerTsCode": "(line: Message): CellHandler => {\n    return { text: line.json_content['StartLocal'] }\n}",
+			"idx": 27,
+			"width": 152
+		},
+		{
+			"id": "506966",
+			"name": "ClientHost",
+			"handlerTsCode": "(line: Message): CellHandler => {\n    return { text: line.json_content['ClientHost'] }\n}",
+			"idx": 2,
+			"width": 310,
+			"faceted": true
+		},
+		{
+			"id": "807219",
+			"name": "ClientAddr",
+			"handlerTsCode": "(line: Message): CellHandler => {\n    return { text: line.json_content['ClientAddr'] }\n}",
+			"idx": 1,
+			"width": 150,
+			"hidden": true
+		},
+		{
+			"id": "613622",
+			"name": "ClientPort",
+			"handlerTsCode": "(line: Message): CellHandler => {\n    return { text: line.json_content['ClientPort'] }\n}",
+			"idx": 3,
+			"width": 150,
+			"hidden": true
+		},
+		{
+			"id": "533527",
+			"name": "Verb",
+			"handlerTsCode": "(line: Message): CellHandler => {\n    return { text: line.json_content['RequestMethod'] }\n}",
+			"idx": 16,
+			"width": 61
+		},
+		{
+			"id": "257448",
+			"name": "RequestPath",
+			"handlerTsCode": "(line: Message): CellHandler => {\n    return { text: line.json_content['RequestPath'] }\n}",
+			"idx": 17,
+			"width": 283
+		},
+		{
+			"id": "901886",
+			"name": "RequestHost",
+			"handlerTsCode": "(line: Message): CellHandler => {\n    return { text: line.json_content['RequestHost'] }\n}",
+			"idx": 15,
+			"width": 144
+		},
+		{
+			"id": "673790",
+			"name": "Proto",
+			"handlerTsCode": "(line: Message): CellHandler => {\n    return { text: line.json_content['RequestProtocol'] }\n}",
+			"idx": 19,
+			"width": 67
+		},
+		{
+			"id": "127578",
+			"name": "Scheme",
+			"handlerTsCode": "(line: Message): CellHandler => {\n    return { text: line.json_content['RequestScheme'] }\n}",
+			"idx": 20,
+			"width": 60
+		},
+		{
+			"id": "415466",
+			"name": "RSize",
+			"handlerTsCode": "(line: Message): CellHandler => {\n    return { text: line.json_content['RequestContentSize'] }\n}",
+			"idx": 13,
+			"width": 66
+		},
+		{
+			"id": "196253",
+			"name": "DStatus",
+			"handlerTsCode": "(line: Message): CellHandler => {\n    return { text: line.json_content['DownstreamStatus'] }\n}",
+			"idx": 6,
+			"width": 71
+		},
+		{
+			"id": "227251",
+			"name": "DSize",
+			"handlerTsCode": "(line: Message): CellHandler => {\n    return { text: line.json_content['DownstreamContentSize'] }\n}",
+			"idx": 5,
+			"width": 84
+		},
+		{
+			"id": "593531",
+			"name": "uaURL",
+			"handlerTsCode": "(line: Message): CellHandler => {\n    return { text: line.json_content['uaUrl'] }\n}",
+			"faceted": false,
+			"idx": 38,
+			"width": 150
+		},
+		{
+			"id": "536519",
+			"name": "User Agent",
+			"handlerTsCode": "(line: Message): CellHandler => {\n    return { text: line.json_content['request_User-Agent'] }\n}",
+			"idx": 33,
+			"width": 335
+		},
+		{
+			"id": "166747",
+			"name": "Duration",
+			"handlerTsCode": "(line: Message): CellHandler => {\n    return { text: line.json_content['Duration'] }\n}",
+			"idx": 7,
+			"width": 95
+		},
+		{
+			"id": "756429",
+			"name": "Overhead",
+			"handlerTsCode": "(line: Message): CellHandler => {\n    return { text: line.json_content['Overhead'] }\n}",
+			"idx": 11,
+			"width": 95
+		},
+		{
+			"id": "205334",
+			"name": "raw",
+			"handlerTsCode": "(line: Message): CellHandler => {\n          return { text: line.content || \"-\"}\n      }",
+			"idx": 0,
+			"width": 150,
+			"hidden": true
+		},
+		{
+			"id": "796875",
+			"name": "ServiceName",
+			"handlerTsCode": "(line: Message): CellHandler => {\n    return { text: line.json_content['ServiceName'] }\n}",
+			"idx": 24,
+			"width": 115
+		},
+		{
+			"id": "360113",
+			"name": "OriginContentSize",
+			"handlerTsCode": "(line: Message): CellHandler => {\n    return { text: line.json_content['OriginContentSize'] }\n}",
+			"idx": 8,
+			"width": 150,
+			"hidden": true
+		},
+		{
+			"id": "446550",
+			"name": "OriginDuration",
+			"handlerTsCode": "(line: Message): CellHandler => {\n    return { text: line.json_content['OriginDuration'] }\n}",
+			"idx": 9,
+			"width": 150,
+			"hidden": true
+		},
+		{
+			"id": "210488",
+			"name": "OriginStatus",
+			"handlerTsCode": "(line: Message): CellHandler => {\n    return { text: line.json_content['OriginStatus'] }\n}",
+			"idx": 10,
+			"width": 150,
+			"hidden": true
+		},
+		{
+			"id": "654768",
+			"name": "RequestAddr",
+			"handlerTsCode": "(line: Message): CellHandler => {\n    return { text: line.json_content['RequestAddr'] }\n}",
+			"idx": 12,
+			"width": 150,
+			"hidden": true
+		},
+		{
+			"id": "982865",
+			"name": "RequestCount",
+			"handlerTsCode": "(line: Message): CellHandler => {\n    return { text: line.json_content['RequestCount'] }\n}",
+			"idx": 14,
+			"width": 150,
+			"hidden": true
+		},
+		{
+			"id": "146433",
+			"name": "RequestPort",
+			"handlerTsCode": "(line: Message): CellHandler => {\n    return { text: line.json_content['RequestPort'] }\n}",
+			"idx": 18,
+			"width": 150,
+			"hidden": true
+		},
+		{
+			"id": "763017",
+			"name": "RetryAttempts",
+			"handlerTsCode": "(line: Message): CellHandler => {\n    return { text: line.json_content['RetryAttempts'] }\n}",
+			"idx": 21,
+			"width": 150,
+			"hidden": true
+		},
+		{
+			"id": "498987",
+			"name": "RouterName",
+			"handlerTsCode": "(line: Message): CellHandler => {\n    return { text: line.json_content['RouterName'] }\n}",
+			"idx": 22,
+			"width": 130
+		},
+		{
+			"id": "671214",
+			"name": "ServiceAddr",
+			"handlerTsCode": "(line: Message): CellHandler => {\n    return { text: line.json_content['ServiceAddr'] }\n}",
+			"idx": 23,
+			"width": 150,
+			"hidden": true
+		},
+		{
+			"id": "909536",
+			"name": "ServiceURL",
+			"handlerTsCode": "(line: Message): CellHandler => {\n    return { text: line.json_content['ServiceURL'] }\n}",
+			"idx": 25,
+			"width": 150,
+			"hidden": true
+		},
+		{
+			"id": "857001",
+			"name": "SpanId",
+			"handlerTsCode": "(line: Message): CellHandler => {\n    return { text: line.json_content['SpanId'] }\n}",
+			"idx": 26,
+			"width": 150,
+			"hidden": true
+		},
+		{
+			"id": "872847",
+			"name": "StartUTC",
+			"handlerTsCode": "(line: Message): CellHandler => {\n    return { text: line.json_content['StartUTC'] }\n}",
+			"idx": 28,
+			"width": 150,
+			"hidden": true
+		},
+		{
+			"id": "275331",
+			"name": "TraceId",
+			"handlerTsCode": "(line: Message): CellHandler => {\n    return { text: line.json_content['TraceId'] }\n}",
+			"idx": 29,
+			"width": 150,
+			"hidden": true
+		},
+		{
+			"id": "933666",
+			"name": "entryPointName",
+			"handlerTsCode": "(line: Message): CellHandler => {\n    return { text: line.json_content['entryPointName'] }\n}",
+			"idx": 30,
+			"width": 150
+		},
+		{
+			"id": "349392",
+			"name": "level",
+			"handlerTsCode": "(line: Message): CellHandler => {\n    return { text: line.json_content['level'] }\n}",
+			"idx": 31,
+			"width": 150,
+			"hidden": true
+		},
+		{
+			"id": "138481",
+			"name": "msg",
+			"handlerTsCode": "(line: Message): CellHandler => {\n    return { text: line.json_content['msg'] }\n}",
+			"idx": 32,
+			"width": 150,
+			"hidden": true
+		},
+		{
+			"id": "562160",
+			"name": "time",
+			"handlerTsCode": "(line: Message): CellHandler => {\n    return { text: line.json_content['time'] }\n}",
+			"idx": 34,
+			"width": 150,
+			"hidden": true
+		},
+		{
+			"id": "483561",
+			"name": "hostname",
+			"handlerTsCode": "(line: Message): CellHandler => {\n    return { text: line.json_content['hostname'] }\n}",
+			"faceted": true,
+			"idx": 34,
+			"width": 150,
+			"hidden": true
+		},
+		{
+			"id": "090942",
+			"name": "subdomain",
+			"handlerTsCode": "(line: Message): CellHandler => {\n    return { text: line.json_content['subdomain'] }\n}",
+			"faceted": true,
+			"idx": 35,
+			"width": 150,
+			"hidden": true
+		},
+		{
+			"id": "837141",
+			"name": "external",
+			"handlerTsCode": "(line: Message): CellHandler => {\n    return { text: line.json_content['external'] }\n}",
+			"faceted": true,
+			"idx": 36,
+			"width": 150,
+			"hidden": true
+		},
+		{
+			"id": "612490",
+			"name": "me",
+			"handlerTsCode": "(line: Message): CellHandler => {\n    return { text: line.json_content['me'] }\n}",
+			"faceted": true,
+			"idx": 37,
+			"width": 150,
+			"hidden": true
+		}
+	],
+	"settings": {
+		"leftColWidth": 300,
+		"drawerColWidth": 900,
+		"maxMessages": 1000,
+		"middlewares": [
+			{
+				"id": "m_632328",
+				"name": "additional_info",
+				"handlerTsCode": "(line: Message): Message | void => {\n\n    let external = true;\n    let me = false;\n\n    const client = line.json_content.ClientHost;\n    const host = line.json_content.RequestHost;\n    const uaString = line.json_content['request_User-Agent'];\n\n    external = !client.includes('192.168.0') && client !== \"2600:1700:1e1f:YOUR:IPV6\";\n    me = client === \"192.168.TREFIK_EXTERNAL.HOST\" || client === \"2600:1700:1e1f:YOUR:IPV6\"\n\n    const urlPattern = /^(?:([A-Za-z]+?):\\/\\/)?(?:[^@\\n]+@)?(?:([A-Za-z]+?)\\.)?([^:\\/\\n?]+)(.*)/;\n\n    let hostname = '-',\n        subdomain = '-',\n        uaUrl;\n\n    if (host !== '-') {\n\n        const urlMatch = host.match(urlPattern);\n\n        if (urlMatch) {\n            if (urlMatch[3].includes('.')) {\n                subdomain = urlMatch[2];\n                hostname = urlMatch[3];\n            } else {\n                hostname = `${urlMatch[2]}.${urlMatch[3]}`;\n            }\n            if (external && hostname === \"CHANGEME.casa\") {\n                external = false;\n            }\n        }\n    }\n\n    const regUrlPattern = /\\+([(http(s)?):\\/\\/(www\\.)?a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,20}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*))/;\n    const uaMatch = uaString.match(regUrlPattern);\n    if (uaMatch) {\n        uaUrl = uaMatch[1];\n    }\n\n    line.json_content.subdomain = subdomain;\n    line.json_content.hostname = hostname;\n    line.json_content.external = external;\n    line.json_content.me = me;\n    line.json_content.uaUrl = uaUrl;\n\n    return line;\n}"
+			}
+		],
+		"entriesOrder": "desc"
+	}
+}

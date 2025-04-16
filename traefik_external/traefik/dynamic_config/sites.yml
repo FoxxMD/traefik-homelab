@@ -1,0 +1,5 @@
+# put services/routers that need to be configured through file
+# IE
+# * labels don't support feature that needs to be configured
+# * configuration is too large/complex to be reasonably done through labels
+# * service is not in a docker container
