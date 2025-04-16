@@ -1,0 +1,23 @@
+# put services/routers that need to be configured through file
+# IE
+# * labels don't support feature that needs to be configured
+# * configuration is too large/complex to be reasonably done through labels
+# * service is not in a docker container
+
+# http:
+#   routers:
+#     homeassistant:
+#       rule: "Host(`home.CHANGEME.casa`)"
+#       service: homeassistant
+#     unraid:
+#       rule: "Host(`unraid.CHANGEME.casa`)"
+#       service: unraid
+#   services:
+#     homeassistant:
+#       loadBalancer:
+#         servers:
+#           - url: "http://192.168.0.101:8123"
+#     unraid:
+#       loadBalancer:
+#         servers:
+#           - url: "http://192.168.0.110:80"

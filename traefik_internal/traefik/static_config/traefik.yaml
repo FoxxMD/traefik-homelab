@@ -1,0 +1,76 @@
+accessLog:
+  filePath: "/var/log/traefik/access.log"
+  format: json
+  # filters:
+  #   statusCodes:
+  #     - "200-299" # log successful http requests
+  #     - "400-599" # log failed http requests
+  # collect logs as in-memory buffer before writing into log file
+  bufferingSize: 0
+  fields:
+    headers:
+      defaultMode: drop # drop all headers per default
+      names:
+          User-Agent: keep # log user agent strings
+api:
+  dashboard: true
+  insecure: true
+metrics:
+  prometheus:
+    buckets:
+      - 0.1
+      - 0.3
+      - 1.2
+      - 5.0
+providers:
+  docker:
+    exposedByDefault: false
+  redis:
+    endpoints:
+      - traefik-internal-redis:6379
+  file:
+    directory: /config/dynamic
+    watch: true
+entryPoints:
+  web:
+    address: :80
+    http:
+      redirections:
+        entryPoint:
+          to: websecure
+          scheme: https
+  websecure:
+    asDefault: true
+    address: :443
+    http:
+      middlewares:
+       - security-headers@file
+       - rate-limit@file
+      tls:
+        certResolver: internalresolver
+        domains:
+          - main: CHANGEME.casa
+            sans: 
+              - "*.CHANGEME.casa"
+          # remove if you only need one domain
+          - main: CHANGEME.com
+            sans:
+              - "*.CHANGEME.com"
+certificatesResolvers:
+  internalresolver:
+    acme:
+      email: "info@CHANGEME.com"
+      storage: "/letsencrypt/acme.json"
+      dnsChallenge:
+        provider: cloudflare
+        resolvers:
+          - 1.1.1.1:53
+          - 1.0.0.1:53
+log:
+  level: info
+
+experimental:
+  plugins:
+    cache:
+      moduleName: "github.com/iamolegga/plugin-simplecache"
+      version: "v0.3.0"
