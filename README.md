@@ -43,3 +43,53 @@ While not *necessary* you should also create two more [externally-managed](https
 docker network create --driver=overlay --internal --attachable kop_overlay
 docker network create --driver=overlay --internal --attachable crowdsec_overlay
 ```
+
+# Setup
+
+If you do not plan on using a certain feature (authentik, crowdsec) make sure to comment out or remove all mentions of it.
+
+### Placeholders
+
+There are two placeholder sites used in the examples stacks:
+
+* `CHANGEME.casa` represents the internal-only (LAN-accessible) domain used with [traefik_internal](/traefik_internal/)
+* `CHANGEME.com` represents the public-facing domain used with [traefik_external](/traefik_external/) through Cloudflare Tunnel, Authentik, and Crowdsec
+
+You need to Find-And-Replace all instances of these sites with your own domains.
+
+Additionally:
+
+* Find-And-Replace all *other* instances of `CHANGEME` with your own values
+* Find-And-Replace instances of `192.168.` with your own IP:HOST
+
+### Required Stacks
+
+To run any of the end-user examples in [example_services](/example_services/) you will, at a minimum, need to setup
+
+* [traefik_internal](/traefik_internal/) and/or [traefik_external](/traefik_external/)
+* and an instance of [traefik_kop](/traefik_kop/) running on this host
+
+# Usage
+
+* View **internal** network Traefik dashboard at `https://traefik-internal.CHANGEME.casa`
+* View **internal** network access logs at `https://traefik-log-internal.CHANGEME.casa`
+* View **external** network Traefik dashboard at `https://traefik-external.CHANGEME.casa`
+* View **external** network access logs at `https://traefik-log-external.CHANGEME.casa`
+
+Create a service on the internal network viewable at `http://echo1.CHANGEME.casa`
+
+```shell
+docker compose -f examples_services/compose-internal-service.yaml up
+```
+
+Create a service on the external network viewable at `http://echo1.CHANGEME.com`
+
+```shell
+docker compose -f examples_services/compose-external-service.yaml up
+```
+
+Create a service on the external network, behind Authentik, viewable at `http://echo2.CHANGEME.com`
+
+```shell
+docker compose -f examples_services/compose-ext-auth-service.yaml up
+```

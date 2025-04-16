@@ -28,7 +28,7 @@ services:
       traefik.enable: true
       traefik.http.routers.traefik-dashboard-external.rule: Host(`traefik-external.CHANGEME.casa`)
       traefik.http.services.traefik-dashboard-external.loadbalancer.server.port: 8080
-      kop.traefik-dashboard-external.bind.ip: "192.168.TRAEFIK_INTERNAL.HOST"
+      kop.traefik-dashboard-external.bind.ip: "192.168.TRAEFIK_INTERNAL_HOST.IP"
       homepage.group: Monitoring
       homepage.name: Traefik (External)
       homepage.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/traefik.png

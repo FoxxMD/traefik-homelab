@@ -52,14 +52,14 @@ entryPoints:
           - main: CHANGEME.casa
             sans: 
               - "*.CHANGEME.casa"
-          # remove if you only need one domain
-          - main: CHANGEME.com
-            sans:
-              - "*.CHANGEME.com"
+          # add if you only need certs for more than one domain
+          # - main: CHANGEME.dev
+          #   sans:
+          #     - "*.CHANGEME.dev"
 certificatesResolvers:
   internalresolver:
     acme:
-      email: "info@CHANGEME.com"
+      email: "info@CHANGEME.casa"
       storage: "/letsencrypt/acme.json"
       dnsChallenge:
         provider: cloudflare
