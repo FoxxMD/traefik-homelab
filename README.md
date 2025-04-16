@@ -10,13 +10,14 @@ The stacks here produce:
 
 * Two Traefik (external and instance) instances, [isolated](https://blog.foxxmd.dev/posts/migrating-to-traefik/##by-isolated-docker-network) using (overlay) docker networks
 * Internal Traefik instance
-  * Provisions [wildcard](https://blog.foxxmd.dev/posts/migrating-to-traefik/#wildcards) ACME SSL certs for two domains
-* External Traefik instance
+  * Provisions [wildcard](https://blog.foxxmd.dev/posts/migrating-to-traefik/#wildcards) ACME SSL certs for one or more domains using Cloudflare DNS Challenge
+  * Is only accessible from LAN/VPN
+* External (Internet-Facing) Traefik instance
   * Uses [Cloudflare Tunnels for all ingress](https://blog.foxxmd.dev/posts/migrating-to-traefik/#cloudflare-tunnels-integration)
   * Has [Crowdsec integrated as a bouncer](http://blog.foxxmd.dev/posts/migrating-to-traefik/#crowdsec-integration)
   * Uses [Authentik](https://blog.foxxmd.dev/posts/migrating-to-traefik/#authentik-integration) for forward auth
 * Both Instances...
-  * Are configured to discovery docker services on [multiple standalone hosts/swarm nodes](http://localhost:4000/posts/migrating-to-traefik/#multi-host-docker-discovery) using [traefik-kop](https://github.com/jittering/traefik-kop)
+  * Are configured to discover docker services on [multiple standalone hosts/swarm nodes](http://localhost:4000/posts/migrating-to-traefik/#multi-host-docker-discovery) using [traefik-kop](https://github.com/jittering/traefik-kop)
   * Use opinionated, best-practices for [storing static and dynamic config](https://blog.foxxmd.dev/posts/migrating-to-traefik/#staticdynamic-config-best-practices)
   * Utilize [Logdy](https://logdy.dev) to [view Traefik access logs in realtime](https://blog.foxxmd.dev/posts/migrating-to-traefik/#viewing-realtime-logs)
 
@@ -24,7 +25,7 @@ The stacks here produce:
 
 ## Networks
 
-You will need to create two, [externally-managed](https://docs.docker.com/reference/cli/docker/network/create/) docker networks. One for each Traefik instance in order to [separate internal and external services.](https://blog.foxxmd.dev/posts/migrating-to-traefik/#separating-internalexternal-services)
+To use both Traefik instances you will need to create two, [externally-managed](https://docs.docker.com/reference/cli/docker/network/create/) docker networks. One for each Traefik instance in order to [separate internal and external services.](https://blog.foxxmd.dev/posts/migrating-to-traefik/#separating-internalexternal-services)
 
 If you have multiple machines running Docker and want to route traffic to all of them I would **highly recommend** setting up [Docker Swarm and using Overlay networks](https://blog.foxxmd.dev/posts/migrating-to-traefik/#swarm-and-overlay) for this (it's easy and zero cost to your existing setup!)
 
@@ -43,6 +44,12 @@ While not *necessary* you should also create two more [externally-managed](https
 docker network create --driver=overlay --internal --attachable kop_overlay
 docker network create --driver=overlay --internal --attachable crowdsec_overlay
 ```
+
+## DNS
+
+If using the internal Traefik instance you will need to configure DNS *somewhere* so that your machines know where to look for Traefik.
+
+This could be done by setting up a wildcard CNAME/A Record in Cloudflare DNS pointing to the LAN IP of the Traefik host. However, I would instead recommend setting up a DNS server on your LAN to prevent leaking DNS records to the internet. I cover how to do this in [another post](https://blog.foxxmd.dev/posts/lan-reverse-proxy-https/#step-3-setting-up-lan-only-dns) and would recommend [using Technitium](https://blog.foxxmd.dev/posts/lan-reverse-proxy-https/#setup-and-configure-technitium).
 
 # Setup
 
@@ -68,6 +75,10 @@ To run any of the end-user examples in [example_services](/example_services/) yo
 
 * [traefik_internal](/traefik_internal/) and/or [traefik_external](/traefik_external/)
 * and an instance of [traefik_kop](/traefik_kop/) running on this host
+
+### Optional Stacks
+
+After creating your traefik stacks setup and create the stacks for [crowdsec](/crowdsec/) and [authentik](/authentik/). Both require additional setup outside of `docker compose up` that can be found in the blog post: [Crowdsec Integration](http://localhost:4000/posts/migrating-to-traefik/#crowdsec-integration) and [Authentik Integration](http://localhost:4000/posts/migrating-to-traefik/#authentik-integration)
 
 # Usage
 
