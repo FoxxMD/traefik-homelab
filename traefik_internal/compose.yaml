@@ -3,7 +3,6 @@ services:
   traefik:
     image: "traefik:v3.3"
     networks:
-      - default
       - traefik_internal
       - internal_overlay
     depends_on:
@@ -64,11 +63,12 @@ services:
   traefik-internal-redis:
     restart: always
     image: redis:7-alpine
+    container_name: traefik-internal-redis
     ports:
       - "6379:6379"
     networks:
-      - default
       - traefik_internal
+      - kop_overlay
     healthcheck:
       test: ['CMD', 'redis-cli', 'ping']
     volumes:
@@ -106,5 +106,7 @@ services:
 
 networks:
   traefik_internal:
+  kop_overlay:
+    external: true
   internal_overlay:
     external: true

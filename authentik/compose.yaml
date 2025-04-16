@@ -17,7 +17,7 @@ services:
     env_file:
       - .env
     networks:
-      - authentik_overlay
+      - default
 
   authentik-redis:
     image: docker.io/library/redis:alpine
@@ -32,7 +32,7 @@ services:
     volumes:
       - redis_authentik:/data
     networks:
-      - authentik_overlay
+      - default
   authentik-server:
     image: ${AUTHENTIK_IMAGE:-ghcr.io/goauthentik/server}:${AUTHENTIK_TAG:-2024.10.5}
     restart: unless-stopped
@@ -54,7 +54,7 @@ services:
     #   - "${COMPOSE_PORT_HTTPS:-9443}:9443"
     networks:
       - public_overlay
-      - authentik_overlay
+      - default
     depends_on:
       authentik-postgresql:
         condition: service_healthy
@@ -77,7 +77,7 @@ services:
     #     - 9443:9443
     networks:
       - public_overlay
-      - authentik_overlay
+      - default
     environment:
         AUTHENTIK_REDIS__HOST: authentik-redis
         AUTHENTIK_HOST: http://authentik-server:9000
@@ -118,7 +118,7 @@ services:
     user: root
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - .authentik/media:/media
+      - ./authentik/media:/media
       - ./authentik/certs:/certs
       - ./authentik/custom-templates:/templates
     env_file:
@@ -129,11 +129,11 @@ services:
       authentik-redis:
         condition: service_healthy
     networks:
-      - authentik_overlay
+      - default
         
 networks:
-  authentik_overlay:
-    external: true
+  default:
+    internal: true
   public_overlay:
     external: true
 

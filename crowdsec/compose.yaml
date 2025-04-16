@@ -1,6 +1,9 @@
 services:
   crowdsec:
     image: "crowdsecurity/crowdsec:latest"
+    networks:
+      - crowdsec_overlay
+      - default
     environment:
       - "CUSTOM_HOSTNAME=cs-decision"
       - "GID=1000"
@@ -9,7 +12,7 @@ services:
     ports:
       - "4242:4242/tcp"
       - "6060:6060/tcp"
-      - "8080:8080/tcp"
+#      - "8080:8080/tcp"
     restart: "always"
     volumes:
       - "./crowdsec/config:/etc/crowdsec"
@@ -17,6 +20,9 @@ services:
       - "./crowdsec/logs:/var/log/crowdsec"
   crowdsec-ingest:
     image: "crowdsecurity/crowdsec:latest"
+    networks:
+      - crowdsec_overlay
+      - default
     environment:
       - "COLLECTIONS=crowdsecurity/linux crowdsecurity/traefik crowdsecurity/whitelist-good-actors"
       # known to have false positives and is CPU intensive
@@ -28,7 +34,7 @@ services:
       # important to make this a worker
       - "DISABLE_LOCAL_API=true"
       - "LEVEL_INFO=true"
-      - "LOCAL_API_URL=http://CS_LAPI_INSTANCE_HOST_IP:8080"
+      - "LOCAL_API_URL=http://crowdsec:8080"
     ports:
       - "6061:6060/tcp"
     restart: "always"
@@ -36,3 +42,6 @@ services:
       - "./crowdsec-ingest/config:/etc/crowdsec"
       - "./crowdsec-ingest/data:/var/lib/crowdsec/data"
       - "./crowdsec-ingest/logs:/var/log/crowdsec"
+networks:
+  crowdsec_overlay:
+    external: true

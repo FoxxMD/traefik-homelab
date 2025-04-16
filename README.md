@@ -35,4 +35,11 @@ docker network create --driver=overlay --attachable internal_overlay
 docker network create --driver=overlay --attachable --subnet=10.99.0.0/24 public_overlay
 ```
 
-If you are not using overlay networks then replace `overlay` with `bridge`, above.
+If you are not using overlay networks then replace `overlay` with `bridge`.
+
+While not *necessary* you should also create two more [externally-managed](https://docs.docker.com/reference/cli/docker/network/create/) docker networks for use with traefik-kop and crowdsec. These make hostname resolution easier and are used in the example stacks. If you do not want to use them then environmental variables referencing hostnames using these networks can be replaced with HOST:IP and the network can be commented out where found in stacks.
+
+```shell
+docker network create --driver=overlay --internal --attachable kop_overlay
+docker network create --driver=overlay --internal --attachable crowdsec_overlay
+```

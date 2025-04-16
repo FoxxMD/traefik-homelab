@@ -5,6 +5,7 @@ services:
     networks:
       - public_overlay
       - traefik_internal
+      - crowdsec_overlay
     depends_on:
       - traefik-external-redis
     ports:
@@ -67,10 +68,12 @@ services:
   traefik-external-redis:
     restart: always
     image: redis:7-alpine
+    container_name: traefik-external-redis
     ports:
       - "6379:6379"
     networks:
       - traefik_internal
+      - kop_overlay
     healthcheck:
       test: ['CMD', 'redis-cli', 'ping']
     volumes:
@@ -114,6 +117,9 @@ services:
 
   socket-proxy:
     image: lscr.io/linuxserver/socket-proxy:latest
+    container_name: traefik-ext-socket-proxy
+    networks:
+      - crowdsec_overlay
     environment:
       - CONTAINERS=1
       - POST=0
@@ -135,4 +141,8 @@ networks:
   public_overlay:
     external: true
   internal_overlay:
+    external: true
+  kop_overlay:
+    external: true
+  crowdsec_overlay:
     external: true
