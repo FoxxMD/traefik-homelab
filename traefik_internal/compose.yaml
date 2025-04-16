@@ -18,7 +18,7 @@ services:
       - ./traefik/certificates:/certificates
       - ./traefik/log:/var/log/traefik:rw
       - ./traefik/static_config:/etc/traefik:rw
-      - .traefik/dynamic_config:/config/dynamic:rw
+      - ./traefik/dynamic_config:/config/dynamic:rw
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
     labels:
       traefik.enable: true
