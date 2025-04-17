@@ -3,9 +3,9 @@ services:
   traefik:
     image: "traefik:v3.3"
     networks:
-      - public_overlay
+      - public_web
       - traefik_internal
-      - crowdsec_overlay
+      - crowdsec_net
     depends_on:
       - traefik-external-redis
     ports:
@@ -58,6 +58,7 @@ services:
 
   traefik-access-logs:
     image: alpine
+    container_name: traefik-external-access-logs
     volumes:
       - ./traefik/log:/var/log:ro
     command: >
@@ -73,7 +74,7 @@ services:
       - "6379:6379"
     networks:
       - traefik_internal
-      - kop_overlay
+      - kop_net
     healthcheck:
       test: ['CMD', 'redis-cli', 'ping']
     volumes:
@@ -92,7 +93,7 @@ services:
       context: https://github.com/logdyhq/logdy-core.git
     read_only: true
     networks:
-      - internal_overlay
+      - internal_web
     volumes:
       - ./traefik/log:/var/log:ro
       - ./logdy/logdy.json:/config/logdy.json
@@ -109,7 +110,7 @@ services:
       traefik.enable: true
       traefik.http.routers.logdy-traefik-external.rule: Host(`traefik-log-external.CHANGEME.casa`)
       traefik.http.services.logdy-traefik-external.loadbalancer.server.port: 8080
-      traefik.docker.network: internal_overlay
+      traefik.docker.network: internal_web
       homepage.group: Monitoring
       homepage.name: Traefik Logs (External)
       homepage.icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/logdy.png
@@ -119,7 +120,7 @@ services:
     image: lscr.io/linuxserver/socket-proxy:latest
     container_name: traefik-ext-socket-proxy
     networks:
-      - crowdsec_overlay
+      - crowdsec_net
     environment:
       - CONTAINERS=1
       - POST=0
@@ -138,11 +139,11 @@ networks:
     ipam:
       config:
         - subnet: 172.28.0.0/16
-  public_overlay:
+  public_web:
     external: true
-  internal_overlay:
+  internal_web:
     external: true
-  kop_overlay:
+  kop_net:
     external: true
-  crowdsec_overlay:
+  crowdsec_net:
     external: true

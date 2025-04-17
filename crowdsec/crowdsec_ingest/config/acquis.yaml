@@ -9,8 +9,8 @@
 # ---
 source: docker
 container_name:
- - traefik-external-traefik-access-logs-1
-# use tcp://192.168.TRAEFIK_EXTERNAL_HOST.IP:2375 if not using crowdsec_overlay
+ - traefik-external-access-logs
+# use tcp://192.168.TRAEFIK_EXTERNAL_HOST.IP:2375 if not using crowdsec_net
 docker_host: tcp://traefik-ext-socket-proxy:2375
 labels:
   type: traefik

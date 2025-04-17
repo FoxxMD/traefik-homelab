@@ -3,7 +3,7 @@ http:
     anyreg:
       redirectregex:
         regex: ^.*
-        replacement: https://MY_SITE.com
+        replacement: https://MY_SITE_CHANGEME.com
     cloudflarewarp:
       plugin:
         cloudflarewarp:

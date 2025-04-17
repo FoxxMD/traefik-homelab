@@ -25,24 +25,26 @@ The stacks here produce:
 
 ## Networks
 
-To use both Traefik instances you will need to create two, [externally-managed](https://docs.docker.com/reference/cli/docker/network/create/) docker networks. One for each Traefik instance in order to [separate internal and external services.](https://blog.foxxmd.dev/posts/migrating-to-traefik/#separating-internalexternal-services)
+Read more about [user-defined](https://blog.foxxmd.dev/posts/migrating-to-traefik/#user-defined-vs-default-bridge-networking) and [overlay networks](https://blog.foxxmd.dev/posts/migrating-to-traefik/#swarm-and-overlay) in the blog post.
+
+To use both Traefik instances you will need to create two, [user-defined](https://blog.foxxmd.dev/posts/migrating-to-traefik/#user-defined-vs-default-bridge-networking) docker networks. One for each Traefik instance in order to [separate internal and external services.](https://blog.foxxmd.dev/posts/migrating-to-traefik/#separating-internalexternal-services)
 
 If you have multiple machines running Docker and want to route traffic to all of them I would **highly recommend** setting up [Docker Swarm and using Overlay networks](https://blog.foxxmd.dev/posts/migrating-to-traefik/#swarm-and-overlay) for this (it's easy and zero cost to your existing setup!)
 
 ```shell
-docker network create --driver=overlay --attachable internal_overlay
+docker network create --driver=overlay --attachable internal_web
 ```
 ```shell
-docker network create --driver=overlay --attachable --subnet=10.99.0.0/24 public_overlay
+docker network create --driver=overlay --attachable --subnet=10.99.0.0/24 public_web
 ```
 
 If you are not using overlay networks then replace `overlay` with `bridge`.
 
-While not *necessary* you should also create two more [externally-managed](https://docs.docker.com/reference/cli/docker/network/create/) docker networks for use with traefik-kop and crowdsec. These make hostname resolution easier and are used in the example stacks. If you do not want to use them then environmental variables referencing hostnames using these networks can be replaced with HOST:IP and the network can be commented out where found in stacks.
+While not *necessary* you should also create two more user-defined docker networks for use with traefik-kop and crowdsec. These make hostname resolution easier and are used in the example stacks. If you do not want to use them then environmental variables referencing hostnames using these networks can be replaced with HOST:IP and the network can be commented out where found in stacks.
 
 ```shell
-docker network create --driver=overlay --internal --attachable kop_overlay
-docker network create --driver=overlay --internal --attachable crowdsec_overlay
+docker network create --driver=overlay --internal --attachable kop_net
+docker network create --driver=overlay --internal --attachable crowdsec_net
 ```
 
 ## DNS

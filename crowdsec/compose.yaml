@@ -2,7 +2,7 @@ services:
   crowdsec:
     image: "crowdsecurity/crowdsec:latest"
     networks:
-      - crowdsec_overlay
+      - crowdsec_net
       - default
     environment:
       - "CUSTOM_HOSTNAME=cs-decision"
@@ -21,7 +21,7 @@ services:
   crowdsec-ingest:
     image: "crowdsecurity/crowdsec:latest"
     networks:
-      - crowdsec_overlay
+      - crowdsec_net
       - default
     environment:
       - "COLLECTIONS=crowdsecurity/linux crowdsecurity/traefik crowdsecurity/whitelist-good-actors"
@@ -43,5 +43,5 @@ services:
       - "./crowdsec-ingest/data:/var/lib/crowdsec/data"
       - "./crowdsec-ingest/logs:/var/log/crowdsec"
 networks:
-  crowdsec_overlay:
+  crowdsec_net:
     external: true

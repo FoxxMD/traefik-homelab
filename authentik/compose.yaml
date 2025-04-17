@@ -34,7 +34,7 @@ services:
     networks:
       - default
   authentik-server:
-    image: ${AUTHENTIK_IMAGE:-ghcr.io/goauthentik/server}:${AUTHENTIK_TAG:-2024.10.5}
+    image: ${AUTHENTIK_IMAGE:-ghcr.io/goauthentik/server}:${AUTHENTIK_TAG}
     restart: unless-stopped
     command: server
     environment:
@@ -53,7 +53,7 @@ services:
     #   - "${COMPOSE_PORT_HTTP:-9000}:9000"
     #   - "${COMPOSE_PORT_HTTPS:-9443}:9443"
     networks:
-      - public_overlay
+      - public_web
       - default
     depends_on:
       authentik-postgresql:
@@ -68,7 +68,7 @@ services:
       traefik.enable: true
       traefik.http.routers.authentik.rule: Host(`auth.CHANGEME.com`)
       traefik.http.services.authentik.loadbalancer.server.port: 9000
-      traefik.docker.network: public_overlay
+      traefik.docker.network: public_web
       traefik.public: true
   authentik-proxy:
     image: ghcr.io/goauthentik/proxy:${AUTHENTIK_TAG:-2024.10.5}
@@ -76,7 +76,7 @@ services:
     #     - 9000:9000
     #     - 9443:9443
     networks:
-      - public_overlay
+      - public_web
       - default
     environment:
         AUTHENTIK_REDIS__HOST: authentik-redis
@@ -134,7 +134,7 @@ services:
 networks:
   default:
     internal: true
-  public_overlay:
+  public_web:
     external: true
 
 volumes:

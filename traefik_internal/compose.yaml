@@ -4,7 +4,7 @@ services:
     image: "traefik:v3.3"
     networks:
       - traefik_internal
-      - internal_overlay
+      - internal_web
     depends_on:
       - traefik-internal-redis
     ports:
@@ -68,7 +68,7 @@ services:
       - "6379:6379"
     networks:
       - traefik_internal
-      - kop_overlay
+      - kop_net
     healthcheck:
       test: ['CMD', 'redis-cli', 'ping']
     volumes:
@@ -79,7 +79,7 @@ services:
       context: https://github.com/logdyhq/logdy-core.git
     read_only: true
     networks:
-      - internal_overlay
+      - internal_web
       - traefik_internal
     volumes:
       - ./traefik/log:/var/log:ro
@@ -106,7 +106,7 @@ services:
 
 networks:
   traefik_internal:
-  kop_overlay:
+  kop_net:
     external: true
-  internal_overlay:
+  internal_web:
     external: true

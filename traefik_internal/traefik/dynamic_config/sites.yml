@@ -16,8 +16,8 @@
 #     homeassistant:
 #       loadBalancer:
 #         servers:
-#           - url: "http://192.168.0.101:8123"
+#           - url: "http://192.168.0.CHANGEME:8123"
 #     unraid:
 #       loadBalancer:
 #         servers:
-#           - url: "http://192.168.0.110:80"
+#           - url: "http://192.168.0.CHANGEME:80"

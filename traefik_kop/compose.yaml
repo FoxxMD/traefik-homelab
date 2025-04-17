@@ -11,7 +11,7 @@ services:
     depends_on:
       - socket-proxy
     networks:
-      - kop_overlay
+      - kop_net
       - default
   traefik-kop-internal:
     image: "ghcr.io/jittering/traefik-kop:latest"
@@ -24,7 +24,7 @@ services:
     depends_on:
       - socket-proxy
     networks:
-      - kop_overlay
+      - kop_net
       - default
   socket-proxy:
     image: lscr.io/linuxserver/socket-proxy:latest
@@ -51,5 +51,5 @@ services:
 networks:
   default:
     internal: true
-  kop_overlay:
+  kop_net:
     external: true

@@ -35,7 +35,7 @@ format: |
     ]
   }
 
-url: https://discord.com/api/webhooks/YOUR_WEBHOOK_HERE
+url: https://discord.com/api/webhooks/CHANGME_YOUR_WEBHOOK_HERE
 
 method: POST
 
