@@ -11,8 +11,8 @@ services:
     depends_on:
       - socket-proxy
     networks:
-      - kop_net
       - default
+      - kop_net
   traefik-kop-internal:
     image: "ghcr.io/jittering/traefik-kop:latest"
     restart: unless-stopped
@@ -24,8 +24,8 @@ services:
     depends_on:
       - socket-proxy
     networks:
-      - kop_net
       - default
+      - kop_net
   socket-proxy:
     image: lscr.io/linuxserver/socket-proxy:latest
     networks:
