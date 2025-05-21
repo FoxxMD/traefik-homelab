@@ -49,7 +49,5 @@ services:
     tmpfs:
       - /run
 networks:
-  default:
-    internal: true
   kop_net:
     external: true
