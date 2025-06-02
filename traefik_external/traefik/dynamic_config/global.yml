@@ -8,7 +8,7 @@ http:
       plugin:
         cloudflarewarp:
           disableDefault: false
-          trustedip: 172.28.0.1/24
+          trustip: 172.28.0.1/24
     crowdsec:
       plugin:
         csbouncer:
